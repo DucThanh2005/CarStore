@@ -1,0 +1,668 @@
+/* ==========================================================================
+   1. ĐỊNH NGHĨA BIẾN MÀU SẮC & THIẾT LẬP CƠ BẢN (FORD OEM STYLE)
+   ========================================================================== */
+:root {
+    --cs-bg: #f4f4f5;
+    --cs-navbar: #ffffff;
+    --cs-primary: #1351b4;
+    --cs-primary-hover: #0e3f8a;
+    --cs-text-dark: #111827;
+    --cs-muted: #6b7280;
+    --cs-card-bg: #ffffff;
+    --cs-border: #e5e7eb;
+}
+
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--cs-bg);
+    color: var(--cs-text-dark);
+    margin: 0;
+}
+
+/* ==========================================================================
+   2. CẤU TRÚC HEADER & THANH NAVIGATE CHUẨN (SVG ICONS)
+   ========================================================================== */
+.ford-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--cs-navbar);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.ford-header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ford-nav-left {
+    display: flex;
+    gap: 28px;
+}
+
+.ford-nav-left a, .ford-logo {
+    text-decoration: none;
+    color: var(--cs-text-dark);
+    font-weight: 700;
+}
+
+.ford-logo {
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.ford-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.ford-icon-btn {
+    color: var(--cs-text-dark);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.ford-icon-btn:hover {
+    color: var(--cs-primary);
+}
+
+.ford-icon-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+/* Thanh tìm kiếm trượt xuống lớn */
+.ford-search-row {
+    background: #ffffff;
+    border-bottom: 1px solid var(--cs-border);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding: 0 24px;
+}
+
+.ford-search-row.is-open {
+    max-height: 80px;
+    padding: 16px 24px;
+}
+
+.ford-search-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 12px;
+}
+
+.ford-search-form input {
+    flex: 1;
+    padding: 8px 20px;
+    border: 1px solid var(--cs-border);
+    border-radius: 999px;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.ford-search-form button {
+    padding: 8px 24px;
+    background: var(--cs-primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.ford-search-form button:hover {
+    background: var(--cs-primary-hover);
+}
+
+/* ==========================================================================
+   3. HERO BLOCK, INTRO VIDEO, BADGES & TABS
+   ========================================================================== */
+.cs-hero {
+    background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+    border: 1px solid var(--cs-border);
+    border-radius: 22px;
+    padding: 28px;
+}
+
+.cs-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: #eef2ff;
+    color: var(--cs-primary);
+    font-weight: 700;
+    font-size: 0.85rem;
+    border-radius: 999px;
+}
+
+.cs-page-title {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--cs-text-dark);
+}
+
+.cs-muted {
+    color: var(--cs-muted);
+    font-size: 1rem;
+    margin-top: 4px;
+}
+
+.ford-page-tabs {
+    display: flex;
+    gap: 24px;
+    border-bottom: 2px solid var(--cs-border);
+    margin-bottom: 24px;
+}
+
+.ford-page-tabs a {
+    text-decoration: none;
+    color: var(--cs-muted);
+    font-weight: 600;
+    padding-bottom: 12px;
+    position: relative;
+    font-size: 0.95rem;
+}
+
+.ford-page-tabs a.active,
+.ford-page-tabs a:hover {
+    color: var(--cs-primary);
+}
+
+.ford-page-tabs a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--cs-primary);
+    border-radius: 999px;
+}
+
+/* Video Hero Section */
+.ford-intro {
+    background: #ffffff;
+    border-bottom: 1px solid var(--cs-border);
+    padding: 40px 0;
+}
+
+.ford-intro-grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+@media (max-width: 992px) {
+    .ford-intro-grid {
+        grid-template-columns: 1fr;
+        text-align: center; /* ĐÃ SỬA LỖI TẠI ĐÂY */
+    }
+}
+
+.ford-badge {
+    color: var(--cs-primary);
+    background: #eef2ff;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.ford-intro-actions {
+    margin-top: 24px;
+    display: flex;
+    gap: 16px;
+    justify-content: inherit;
+}
+
+.ford-btn-primary, .ford-btn-primary-sm {
+    background: var(--cs-primary);
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-weight: 600;
+    display: inline-block;
+    transition: background 0.2s;
+}
+
+.ford-btn-primary:hover {
+    background: var(--cs-primary-hover);
+}
+
+.ford-btn-primary-sm {
+    padding: 6px 16px;
+    font-size: 0.9rem;
+}
+
+.ford-btn-outline {
+    background: transparent;
+    color: var(--cs-text-dark) !important;
+    border: 1px solid var(--cs-border);
+    text-decoration: none;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-weight: 600;
+    display: inline-block;
+    transition: background 0.2s;
+}
+
+.ford-btn-outline:hover {
+    background: #f9fafb;
+}
+
+.ford-video-hero {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* ==========================================================================
+   4. BỐ CỤC PHÂN PHÒNG INVENTORY GRID (2 CỘT CHO CAR INVENTORY)
+   ========================================================================== */
+.ford-inventory-grid {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 32px;
+    align-items: start;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+@media (max-width: 992px) {
+    .ford-inventory-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+.ford-filter-panel {
+    position: sticky;
+    top: 88px;
+    z-index: 10;
+}
+
+.ford-model-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ford-model-nav a {
+    text-decoration: none;
+    color: var(--cs-text-dark);
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.ford-model-nav a:hover,
+.ford-model-nav a.active {
+    background-color: #eef2ff;
+    color: var(--cs-primary);
+}
+
+.ford-inventory-hero {
+    background: #111827;
+    color: #ffffff;
+    padding: 28px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.ford-inventory-hero h2 {
+    font-size: 1.4rem;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.ford-hero-actions {
+    display: flex;
+    gap: 24px;
+}
+
+.ford-hero-actions a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    transition: border-color 0.2s;
+}
+
+.ford-hero-actions a:hover {
+    border-color: #ffffff;
+}
+
+/* ==========================================================================
+   5. THẺ XE CHÍNH & KHỐI DANH MỤC (FORD CAR CARD / VEHICLE CARD)
+   ========================================================================== */
+.ford-section {
+    padding: 40px 0;
+}
+
+.ford-section-head h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.ford-car-card {
+    background: #ffffff;
+    border: 1px solid var(--cs-border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ford-car-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.ford-car-img {
+    height: 220px;
+    overflow: hidden;
+    background: #f3f4f6;
+}
+
+.ford-car-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ford-car-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.ford-price-tag {
+    color: #ef4444;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.ford-vehicle-card {
+    background: #ffffff;
+    border: 1px solid var(--cs-border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ford-vehicle-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.ford-vehicle-card-media {
+    height: 180px;
+    overflow: hidden;
+    background: #f3f4f6;
+}
+
+.ford-vehicle-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ford-vehicle-card-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.ford-vehicle-card-body h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+
+.ford-vehicle-card-body p {
+    color: #ef4444;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+.ford-link-action {
+    color: var(--cs-primary);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+.ford-link-action:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   6. KHỐI SHOWCASE BỘ SƯU TẬP & BANNER ĐA DẠNG
+   ========================================================================== */
+.ford-category-section {
+    margin-bottom: 40px;
+}
+
+.ford-category-subtitle {
+    color: var(--cs-muted);
+    font-size: 0.95rem;
+}
+
+.ford-link-muted {
+    color: var(--cs-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.ford-link-muted:hover {
+    color: var(--cs-primary);
+    text-decoration: underline;
+}
+
+.ford-feature-card {
+    background: #ffffff;
+    border: 1px solid var(--cs-border);
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ford-feature-card-img {
+    height: 260px;
+}
+
+.ford-feature-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ford-feature-card-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ford-grid-small {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+}
+
+.ford-small-card {
+    border-radius: 16px;
+    border: 1px solid var(--cs-border);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(50% - 8px);
+}
+
+.ford-small-card.bg-sky { background-color: #f0f6ff; }
+.ford-small-card.bg-rose { background-color: #fff1f2; }
+
+.ford-product-card {
+    background: #ffffff;
+    border: 1px solid var(--cs-border);
+    border-radius: 16px;
+    padding: 16px;
+    height: 100%;
+}
+
+.ford-product-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.ford-product-card-alt {
+    background: #f8fafc;
+}
+
+.ford-showcase-banner {
+    background: #ffffff;
+    border: 1px solid var(--cs-border);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.ford-showcase-banner-media {
+    max-width: 380px;
+    width: 100%;
+}
+
+.ford-showcase-banner-media img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.ford-info-card {
+    background: #ffffff;
+    border: 1px solid var(--cs-border);
+    border-radius: 16px;
+    padding: 24px;
+    height: 100%;
+}
+
+/* ==========================================================================
+   7. CHÂN TRANG ĐỒNG BỘ NGUYÊN BẢN (FORD FOOTER)
+   ========================================================================== */
+.ford-footer {
+    background: #111827;
+    color: #ffffff;
+    padding-top: 48px;
+    padding-bottom: 24px;
+}
+
+.ford-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px;
+}
+
+.ford-footer-col h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-uppercase: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 16px;
+}
+
+.ford-footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ford-footer-col a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.ford-footer-col a:hover {
+    color: #ffffff;
+}
+
+.ford-footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.ford-footer-socials {
+    display: flex;
+    gap: 16px;
+}
+
+.ford-footer-socials a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+}
