@@ -2,7 +2,7 @@
   <div class="container py-4" v-if="stats">
     <div class="cs-hero bg-dark text-white p-4 rounded-4 mb-4 border">
       <span class="badge bg-danger mb-2">🧰 Control Panel</span>
-      <h1 class="display-6 fw-bold m-0">Hệ Thống Báo Cáo Kinh Doanh</h1>
+      <h1 class="display-6 fw-bold m-0">Hệ Thống Quản lý Kinh Doanh</h1>
     </div>
     <div class="row g-3 mb-4">
       <div class="col-6 col-md-3" v-for="(val, key) in {'Dòng xe': stats.totalCars, 'Khách hàng': stats.totalUsers, 'Đơn đặt': stats.totalOrders, 'Hãng xe': stats.totalBrands}" :key="key">

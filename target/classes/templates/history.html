@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Giỏ hàng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/app.css}">
+    <link rel="stylesheet" th:href="@{/assets/ford-home.css}">
+</head>
+
+<body class="bg-light">
+
+    <header class="ford-header">
+        <div class="ford-header-inner">
+            <nav class="ford-nav-left">
+                <a href="/car/list">Sản phẩm</a>
+                <a href="/cart/view">Mua xe</a>
+                <a href="/service">Dịch vụ</a>
+                <a href="/support">Hỗ trợ</a>
+            </nav>
+            <a class="ford-logo" href="/">CarStore</a>
+            <div class="ford-nav-right">
+                <a href="/car/list" class="ford-icon-btn" title="Đại lý" aria-label="Đại lý">
+                    <svg viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                </a>
+                <a href="/logout" class="ford-icon-btn" title="Đăng xuất" aria-label="Đăng xuất">
+                    <svg viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="container py-5">
+
+        <h3 class="mb-4 text-center">📋 Lịch sử yêu cầu</h3>
+
+        <div class="card shadow">
+            <div class="card-body">
+
+                <table class="table table-bordered table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Tên</th>
+                            <th>SĐT</th>
+                            <th>Dịch vụ</th>
+                            <th>Nội dung</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr th:each="item, i : ${list}">
+                            <td th:text="${item.name}"></td>
+                            <td th:text="${item.phone}"></td>
+                            <td>
+                                <span class="badge bg-info" th:text="${item.type}"></span>
+                            </td>
+                            <td th:text="${item.content}"></td>
+                            <td>
+                                <span th:text="${item.status}"
+                                    th:classappend="${item.status == 'Đã xử lý'} ? 'badge bg-success' : 'badge bg-warning'">
+                                </span>
+                            </td>
+                            <td>
+                               <a th:href="@{'/done/' + ${item.id}}" class="btn btn-sm btn-success">✔</a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="/service" class="btn btn-secondary">← Quay lại</a>
+        </div>
+
+    </div>
+    <footer class="ford-footer mt-5">
+        <div class="ford-footer-inner container">
+            <div class="ford-footer-grid">
+                <div class="ford-footer-col">
+                    <h3>Sản phẩm</h3>
+                    <a href="/car/list">Xe SUV</a>
+                    <a href="/car/list">Xe Thương Mại</a>
+                </div>
+                <div class="ford-footer-col">
+                    <h3>Mua Xe</h3>
+                    <a href="/cart/view">Quản lý đặt cọc</a>
+                    <a href="/car/list">Kiểm tra xe có sẵn</a>
+                    <a href="/car/list">Lựa chọn mẫu xe và báo giá</a>
+                    <a href="/car/list">Bảng giá</a>
+                </div>
+                <div class="ford-footer-col">
+                    <h3>Dịch Vụ</h3>
+                    <a href="/service">Đặt lịch dịch vụ</a>
+                    <a href="/service">Báo giá dịch vụ</a>
+                    <a href="/service">Lịch bảo dưỡng định kỳ</a>
+                    <a href="/support">Nhận & giao xe tận nơi</a>
+                </div>
+                <div class="ford-footer-col">
+                    <h3>FORD VIỆT NAM</h3>
+                    <a href="/support">Lịch sử công ty</a>
+                    <a href="/support">Tin tức & Sự kiện</a>
+                    <a href="/support">Hỗ trợ cộng đồng</a>
+                </div>
+            </div>
+            <div class="ford-footer-bottom">
+                <p class="mb-0">Theo dõi Ford</p>
+                <div class="ford-footer-socials">
+                    <a href="#" aria-label="Facebook">F</a>
+                    <a href="#" aria-label="YouTube">Y</a>
+                    <a href="#" aria-label="Instagram">I</a>
+                    <a href="#" aria-label="Zalo">Z</a>
+                    <a href="#" aria-label="TikTok">T</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

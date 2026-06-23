@@ -40,7 +40,7 @@
         </div>
         <div class="d-flex gap-2" v-if="user && user.role === 'ROLE_ADMIN'">
           <router-link class="ford-btn-primary-sm" to="/admin/dashboard">Thêm xe mới</router-link>
-          <router-link class="ford-btn-outline" to="/admin/dashboard">Báo cáo</router-link>
+          <router-link class="ford-btn-outline" to="/admin/dashboard">Quản lý</router-link>
         </div>
       </div>
 
