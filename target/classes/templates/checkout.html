@@ -64,17 +64,41 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold small">Hình thức sở hữu mong muốn</label>
-                            <div class="d-flex gap-3">
-                                <div class="form-check p-3 border rounded w-50">
-                                    <input class="form-check-input" type="radio" name="payment" id="bank" value="BANK"
-                                        checked>
-                                    <label class="form-check-label" for="bank">Mua xe trả thẳng</label>
+                            <label class="form-label fw-bold small">Chọn hình thức thanh toán</label>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="form-check p-3 border rounded">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="pm_bank" value="BANK_TRANSFER" checked>
+                                    <label class="form-check-label" for="pm_bank">Chuyển khoản ngân hàng (Bank transfer)</label>
                                 </div>
-                                <div class="form-check p-3 border rounded w-50">
-                                    <input class="form-check-input" type="radio" name="payment" id="installment"
-                                        value="INSTALLMENT">
-                                    <label class="form-check-label" for="installment">Hỗ trợ trả góp ngân hàng</label>
+                                <div class="form-check p-3 border rounded">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="pm_momo" value="MOMO">
+                                    <label class="form-check-label" for="pm_momo">Ví MoMo</label>
+                                </div>
+                                <div class="form-check p-3 border rounded">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="pm_zalopay" value="ZALOPAY">
+                                    <label class="form-check-label" for="pm_zalopay">ZaloPay</label>
+                                </div>
+                            </div>
+
+                            <div id="payment-details" class="mt-3">
+                                <div id="bank-details" class="payment-block">
+                                    <h6 class="fw-bold">Thông tin chuyển khoản</h6>
+                                    <p class="mb-1">Ngân hàng: Vietcombank</p>
+                                    <p class="mb-1">Chủ tài khoản: Công ty CarStore</p>
+                                    <p class="mb-1">Số tài khoản: 0123456789</p>
+                                    <p class="mb-0 small text-muted">Ghi chú khi chuyển: MÃ ĐƠN + TÊN KHÁCH HÀNG</p>
+                                </div>
+
+                                <div id="momo-details" class="payment-block d-none">
+                                    <h6 class="fw-bold">Thanh toán qua MoMo</h6>
+                                    <p class="mb-1">Quét mã QR hoặc chuyển tới số Ví: 0987654321</p>
+                                    <p class="mb-0 small text-muted">Ghi chú: MÃ ĐƠN + TÊN KHÁCH HÀNG</p>
+                                </div>
+
+                                <div id="zalopay-details" class="payment-block d-none">
+                                    <h6 class="fw-bold">Thanh toán qua ZaloPay</h6>
+                                    <p class="mb-1">Quét mã QR ZaloPay hoặc chuyển tới tài khoản: 0987612345</p>
+                                    <p class="mb-0 small text-muted">Ghi chú: MÃ ĐƠN + TÊN KHÁCH HÀNG</p>
                                 </div>
                             </div>
                         </div>
@@ -169,6 +193,25 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const radios = document.querySelectorAll('input[name="paymentMethod"]');
+            const bank = document.getElementById('bank-details');
+            const momo = document.getElementById('momo-details');
+            const zalopay = document.getElementById('zalopay-details');
+
+            function update() {
+                const v = document.querySelector('input[name="paymentMethod"]:checked').value;
+                bank.classList.toggle('d-none', v !== 'BANK_TRANSFER');
+                momo.classList.toggle('d-none', v !== 'MOMO');
+                zalopay.classList.toggle('d-none', v !== 'ZALOPAY');
+            }
+
+            radios.forEach(r => r.addEventListener('change', update));
+            update();
+        });
+    </script>
 </body>
 
 </html>
