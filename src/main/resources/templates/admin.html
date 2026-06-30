@@ -13,6 +13,8 @@
 
     <!-- Vue + Axios -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <!-- Vue Router (v3 for Vue 2) -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3/dist/vue-router.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <!-- Chart.js -->
@@ -58,7 +60,27 @@
             <div class="cs-muted">Thống kê, biểu đồ và CRUD xe qua REST API.</div>
         </div>
 
-        <div class="row g-3 mb-3">
+        <!-- Quick links: use router-link so navigation updates URL and keeps layout persistent -->
+        <div class="mb-3">
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+                <router-link class="btn btn-outline-secondary btn-sm" to="/admin/dashboard" exact
+                    active-class="btn-primary">Home</router-link>
+                <router-link class="btn btn-outline-secondary btn-sm" to="/admin/cars" active-class="btn-primary">Car list</router-link>
+                <router-link class="btn btn-outline-secondary btn-sm" to="/admin/create-car" active-class="btn-primary">Create car</router-link>
+                <router-link class="btn btn-outline-secondary btn-sm" to="/admin/users" active-class="btn-primary">Manage users</router-link>
+                <router-link class="btn btn-outline-secondary btn-sm" to="/admin/orders" active-class="btn-primary">Manage orders</router-link>
+            </div>
+        </div>
+
+        <!-- Router view area: child routes will render here -->
+        <router-view>
+            <!-- Fallback content for older browsers without JS (progressive enhancement) -->
+        </router-view>
+
+        <!-- Legacy: keep dashboard content as named template for router to use -->
+        <script type="text/x-template" id="tpl-dashboard">
+            <div>
+                <div class="row g-3 mb-3">
             <div class="col-12 col-lg-6">
                 <div class="cs-card p-4 h-100">
                     <div class="cs-muted mb-2">💰 Doanh thu</div>
@@ -131,112 +153,195 @@
 
                 </div>
             </div>
-        </div>
+                </div>
+
+            </div>
+        </script>
+
+
+        <!-- Route templates for SPA views -->
+        <script type="text/x-template" id="tpl-cars">
+            <div class="cs-card p-4">
+                <h3 class="mb-3">Danh sách xe</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên</th>
+                            <th>Giá</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(c, idx) in $root.cars" :key="c.id">
+                            <td>{{ idx + 1 }}</td>
+                            <td>{{ c.name }}</td>
+                            <td>{{ $root.formatMoney(c.price) }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" @click="$root.edit(c)">Sửa</button>
+                                <button class="btn btn-sm btn-danger" @click="$root.remove(c.id)">Xóa</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </script>
+
+        <script type="text/x-template" id="tpl-create-car">
+            <div class="cs-card p-4">
+                <h3 class="mb-3">Tạo xe mới</h3>
+                <div class="row g-2 mb-3">
+                    <div class="col-12 col-md-7">
+                        <input class="form-control" v-model="$root.car.name" placeholder="Tên xe">
+                    </div>
+                    <div class="col-12 col-md-5">
+                        <input class="form-control" v-model.number="$root.car.price" placeholder="Giá">
+                    </div>
+                    <div class="col-12 d-flex gap-2 mt-2">
+                        <button class="btn cs-btn cs-btn-primary" @click="$root.save()">Lưu</button>
+                        <button class="btn cs-btn cs-btn-ghost" @click="$root.car = {}">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/x-template" id="tpl-users">
+            <div class="cs-card p-4">
+                <h3 class="mb-3">Quản lý người dùng</h3>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <button class="btn btn-sm btn-primary" @click="$root.loadUsers">Tải lại danh sách</button>
+                    </div>
+                    <div class="col-12">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Roles</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(u, i) in $root.users" :key="u.id">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ u.username || u.name || '-' }}</td>
+                                    <td>{{ u.email || '-' }}</td>
+                                    <td>{{ (u.roles || []).join(', ') }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/x-template" id="tpl-orders">
+            <div class="cs-card p-4">
+                <h3 class="mb-3">Quản lý đơn hàng</h3>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <button class="btn btn-sm btn-primary" @click="$root.loadOrders">Tải lại đơn hàng</button>
+                    </div>
+                    <div class="col-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Mã đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(o, i) in $root.orders" :key="o.id">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ o.code || o.id }}</td>
+                                    <td>{{ o.customerName || o.customer || '-' }}</td>
+                                    <td>{{ $root.formatMoney(o.total || o.amount) }}</td>
+                                    <td>{{ o.status || '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </script>
 
     </div>
 
     <script>
-        new Vue({
-            el: "#adminApp",
+        // Create Vue components from templates and configure Vue Router
+        const Dashboard = { template: '#tpl-dashboard' }
+        const Cars = { template: '#tpl-cars', created() { if (!this.$root.cars.length) this.$root.load() } }
+        const CreateCar = { template: '#tpl-create-car' }
+        const Users = { template: '#tpl-users', created() { if (!this.$root.users.length) this.$root.loadUsers() } }
+        const Orders = { template: '#tpl-orders', created() { if (!this.$root.orders.length) this.$root.loadOrders() } }
+
+        const router = new VueRouter({
+            mode: 'history',
+            routes: [
+                { path: '/admin/dashboard', component: Dashboard },
+                { path: '/admin/cars', component: Cars },
+                { path: '/admin/create-car', component: CreateCar },
+                { path: '/admin/users', component: Users },
+                { path: '/admin/orders', component: Orders },
+                { path: '/', redirect: '/admin/dashboard' }
+            ]
+        })
+
+        const app = new Vue({
+            el: '#adminApp',
+            router,
 
             data: {
                 cars: [],
+                users: [],
+                orders: [],
                 car: {},
                 revenue: 0,
                 topCars: [],
-                chart: null // 👉 tránh vẽ chart nhiều lần
+                chart: null
             },
 
             created() {
-                this.load();
-                this.loadRevenue();
-                this.loadTop();
+                // Sync initial route to load dashboard data when arriving at /admin
+                if (this.$route.path === '/admin/dashboard' || this.$route.path === '/') {
+                    this.loadRevenue();
+                    this.loadTop();
+                }
+                // If visiting cars route initially
+                if (this.$route.path === '/admin/cars') this.load();
+            },
+
+            watch: {
+                // keep currentTab for backward compatibility (if other code checks it)
+                '$route'(to) {
+                    // optional: update currentTab if some code uses it
+                    // this.currentTab = to.path.split('/').pop();
+                }
             },
 
             methods: {
-
-                // 📥 Load danh sách xe
-                load() {
-                    axios.get("/api/cars")
-                        .then(r => {
-                            this.cars = r.data;
-                        })
-                        .catch(err => console.error(err));
+                loadUsers() {
+                    if (this.users && this.users.length) return;
+                    axios.get('/api/users').then(r => { this.users = r.data || [] }).catch(e => { console.error(e); this.users = [] })
                 },
-
-                // 💰 Load doanh thu
-                loadRevenue() {
-                    axios.get("/api/orders/revenue")
-                        .then(r => {
-                            this.revenue = r.data || 0;
-                            this.drawChart();
-                        })
-                        .catch(err => console.error(err));
+                loadOrders() {
+                    if (this.orders && this.orders.length) return;
+                    axios.get('/api/orders').then(r => { this.orders = r.data || [] }).catch(e => { console.error(e); this.orders = [] })
                 },
-
-                // 🔥 Load top xe
-                loadTop() {
-                    axios.get("/api/orders/top")
-                        .then(r => {
-                            this.topCars = r.data;
-                        })
-                        .catch(err => console.error(err));
-                },
-
-                // 💾 Lưu xe
-                save() {
-                    let request;
-
-                    if (this.car.id) {
-                        request = axios.put("/api/cars/" + this.car.id, this.car);
-                    } else {
-                        request = axios.post("/api/cars", this.car);
-                    }
-
-                    request.then(() => {
-                        this.load();
-                        this.car = {};
-                    }).catch(err => console.error(err));
-                },
-
-                // ✏️ Sửa xe (FIX lỗi spread operator)
-                edit(c) {
-                    this.car = Object.assign({}, c);
-                },
-
-                // ❌ Xóa xe
-                remove(id) {
-                    axios.delete("/api/cars/" + id)
-                        .then(() => this.load())
-                        .catch(err => console.error(err));
-                },
-
-                // 💵 format tiền (FIX crash null)
-                formatMoney(x) {
-                    if (!x) return "0 VND";
-                    return Number(x).toLocaleString() + " VND";
-                },
-
-                // 📊 Vẽ biểu đồ (FIX memory leak)
-                drawChart() {
-
-                    if (this.chart) {
-                        this.chart.destroy();
-                    }
-
-                    this.chart = new Chart(document.getElementById("chart"), {
-                        type: 'bar',
-                        data: {
-                            labels: ["Doanh thu"],
-                            datasets: [{
-                                label: "VND",
-                                data: [this.revenue]
-                            }]
-                        }
-                    });
-                }
+                load() { axios.get('/api/cars').then(r => { this.cars = r.data }).catch(e => console.error(e)) },
+                loadRevenue() { axios.get('/api/orders/revenue').then(r => { this.revenue = r.data || 0; this.drawChart() }).catch(e => console.error(e)) },
+                loadTop() { axios.get('/api/orders/top').then(r => { this.topCars = r.data || [] }).catch(e => console.error(e)) },
+                save() { let req = this.car.id ? axios.put('/api/cars/' + this.car.id, this.car) : axios.post('/api/cars', this.car); req.then(() => { this.load(); this.car = {} }).catch(e => console.error(e)) },
+                edit(c) { this.car = Object.assign({}, c) },
+                remove(id) { axios.delete('/api/cars/' + id).then(() => this.load()).catch(e => console.error(e)) },
+                formatMoney(x) { if (!x) return '0 VND'; return Number(x).toLocaleString() + ' VND' },
+                drawChart() { if (this.chart) this.chart.destroy(); this.chart = new Chart(document.getElementById('chart'), { type: 'bar', data: { labels: ['Doanh thu'], datasets: [{ label: 'VND', data: [this.revenue] }] } }) }
             }
-        });
+        })
     </script>
     <footer class="ford-footer mt-5">
         <div class="ford-footer-inner container">
