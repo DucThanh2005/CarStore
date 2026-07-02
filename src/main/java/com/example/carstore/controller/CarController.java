@@ -40,7 +40,9 @@ public class CarController {
     public String save(
             @ModelAttribute Car car,
             @RequestParam(value = "file", required = false)
-            MultipartFile file) {
+            MultipartFile file,
+            @RequestParam(value = "redirectTo", required = false)
+            String redirectTo) {
 
         try {
 
@@ -72,6 +74,10 @@ public class CarController {
         }
 
         carService.save(car);
+
+        if (redirectTo != null && !redirectTo.isBlank()) {
+            return "redirect:" + redirectTo;
+        }
 
         return "redirect:/car/list";
     }

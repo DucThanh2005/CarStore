@@ -59,15 +59,20 @@
                 <div class="cs-muted">Lọc và tìm kiếm các dòng xe có sẵn, hỗ trợ giao xe tận showroom gần nhất.</div>
             </div>
 
-            <div class="ford-page-tabs mb-4">
-                <a href="/car/list">Sản phẩm</a>
-                <a class="active" href="#">Danh sách xe</a>
-                <a href="/cart/view">Mua Xe</a>
-            </div>
+            <div class="row g-4">
+                <div class="col-12 col-xl-3">
+                    <div th:replace="fragments/admin-sidebar :: sidebar"></div>
+                </div>
+                <div class="col-12 col-xl-9">
+                    <div class="ford-page-tabs mb-4">
+                        <a href="/car/list">Sản phẩm</a>
+                        <a class="active" href="#">Danh sách xe</a>
+                        <a href="/cart/view">Mua Xe</a>
+                    </div>
 
-            <div class="ford-inventory-grid">
+                    <div class="ford-inventory-grid">
 
-                <aside class="ford-filter-panel">
+                        <aside class="ford-filter-panel">
                     <div class="card p-3 border rounded-4 bg-white shadow-sm mb-3">
                         <h5 class="fw-bold mb-3 text-dark d-flex align-items-center gap-2">
                             Bộ lọc kho xe

@@ -520,6 +520,122 @@ body.page-home .ford-btn-primary-sm:hover {
   background: #e5e7eb;
 }
 
+/* Dashboard analytics page styles */
+.dashboard-metric-card,
+.dashboard-section-card,
+.dashboard-panel-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dashboard-metric-card:hover,
+.dashboard-section-card:hover,
+.dashboard-panel-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.10);
+}
+
+.dashboard-metric-card {
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboard-metric-card .metric-label {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-bottom: 0.8rem;
+}
+
+.dashboard-metric-card .metric-value {
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #111827;
+}
+
+.dashboard-panel-card {
+  padding: 1.75rem;
+}
+
+.dashboard-panel-card .badge,
+.dashboard-section-card .badge {
+  font-size: 0.75rem;
+  padding: 0.55em 0.85em;
+}
+
+.dashboard-quick-links .list-group-item {
+  padding: 1rem 1rem;
+  margin-bottom: 0.75rem;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  background: #f8fafc;
+  color: #111827;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.dashboard-quick-links .list-group-item:hover,
+.dashboard-quick-links .list-group-item:focus {
+  background: #ffffff;
+  border-color: #e5e7eb;
+}
+
+.dashboard-summary-item {
+  margin-top: 1.4rem;
+}
+
+.dashboard-summary-item .cs-muted {
+  letter-spacing: 0.02em;
+}
+
+.dashboard-section-card {
+  padding: 1.75rem;
+}
+
+.dashboard-section-card .table {
+  margin-bottom: 0;
+}
+
+.dashboard-section-card thead th {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dashboard-section-card tbody tr:hover {
+  background: #f8fafc;
+}
+
+.dashboard-section-card tbody td {
+  border-top: 1px solid #f3f4f6;
+}
+
+.dashboard-section-card .progress {
+  background: #e5e7eb;
+}
+
+.dashboard-chart-placeholder {
+  min-height: 240px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.14), rgba(191, 219, 254, 0.20));
+  display: grid;
+  place-items: center;
+  color: #0f4c81;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+@media (max-width: 767px) {
+  .dashboard-panel-card,
+  .dashboard-section-card,
+  .dashboard-metric-card {
+    border-radius: 18px;
+  }
+}
+
 .btn.cs-btn-danger {
   background: #fee2e2;
   color: #991b1b;
