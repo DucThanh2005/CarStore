@@ -9,10 +9,37 @@
     <link rel="stylesheet" th:href="@{/assets/app.css}">
     <link rel="stylesheet" th:href="@{/assets/ford-home.css}">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        .cart-toast {
+            position: fixed;
+            top: 84px;
+            right: 24px;
+            z-index: 3000;
+            min-width: 280px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            background: #16a34a;
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, .18);
+            transform: translateY(-16px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all .25s ease;
+        }
+        .cart-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .cart-toast.error {
+            background: #dc2626;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
     <div id="app">
+        <div id="cartToast" class="cart-toast">{{ toastMessage }}</div>
 
         <header class="ford-header">
             <div class="ford-header-inner">
@@ -59,20 +86,15 @@
                 <div class="cs-muted">Lọc và tìm kiếm các dòng xe có sẵn, hỗ trợ giao xe tận showroom gần nhất.</div>
             </div>
 
-            <div class="row g-4">
-                <div class="col-12 col-xl-3">
-                    <div th:replace="fragments/admin-sidebar :: sidebar"></div>
-                </div>
-                <div class="col-12 col-xl-9">
-                    <div class="ford-page-tabs mb-4">
-                        <a href="/car/list">Sản phẩm</a>
-                        <a class="active" href="#">Danh sách xe</a>
-                        <a href="/cart/view">Mua Xe</a>
-                    </div>
+            <div class="ford-page-tabs mb-4">
+                <a href="/car/list">Sản phẩm</a>
+                <a class="active" href="#">Danh sách xe</a>
+                <a href="/cart/view">Mua Xe</a>
+            </div>
 
-                    <div class="ford-inventory-grid">
+            <div class="ford-inventory-grid">
 
-                        <aside class="ford-filter-panel">
+                <aside class="ford-filter-panel">
                     <div class="card p-3 border rounded-4 bg-white shadow-sm mb-3">
                         <h5 class="fw-bold mb-3 text-dark d-flex align-items-center gap-2">
                             Bộ lọc kho xe
@@ -275,13 +297,41 @@
                     filterColor.value = "";
                 };
 
-                // HÀM ĐIỀU HƯỚNG SỬA TẠI ĐÂY: Ép hướng đi trực tiếp bằng Javascript BOM bypass qua Virtual DOM của Vue
-                // Tham số isCheckout quyết định sau khi thêm có nhảy vào giỏ hàng luôn hay không
-                const goToCartAdd = (id, isCheckout) => {
-                    if (isCheckout) {
-                        window.location.href = '/cart/add/' + id + '?redirect=cart';
-                    } else {
-                        window.location.href = '/cart/add/' + id;
+                const toastMessage = ref("Thêm giỏ hàng thành công");
+
+                const showToast = (message, isError = false) => {
+                    toastMessage.value = message;
+                    const toast = document.getElementById('cartToast');
+                    if (!toast) return;
+                    toast.classList.toggle('error', isError);
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 1600);
+                };
+
+                // Thêm giỏ bằng AJAX: không đổi trang, chỉ hiện thông báo thành công.
+                // Riêng nút "Đặt cọc" thêm xong sẽ đưa người dùng tới giỏ hàng để tiếp tục đặt xe.
+                const goToCartAdd = async (id, isCheckout) => {
+                    try {
+                        const response = await fetch('/cart/add-api/' + id, {
+                            method: 'POST',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        });
+                        const data = await response.json();
+
+                        if (data.success) {
+                            showToast('Thêm giỏ hàng thành công');
+                            if (isCheckout) {
+                                setTimeout(() => {
+                                    window.location.href = '/cart/view';
+                                }, 700);
+                            }
+                        } else {
+                            showToast(data.message || 'Không thể thêm giỏ hàng', true);
+                        }
+                    } catch (error) {
+                        showToast('Lỗi kết nối, vui lòng thử lại', true);
                     }
                 };
 
@@ -336,7 +386,8 @@
                     suvCars,
                     commercialCars,
                     electricCars,
-                    goToCartAdd
+                    goToCartAdd,
+                    toastMessage
                 };
             }
         }).mount('#app');
