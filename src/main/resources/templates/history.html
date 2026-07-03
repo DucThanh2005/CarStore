@@ -30,7 +30,8 @@
                 </a>
                 <a href="/logout" class="ford-icon-btn" title="Đăng xuất" aria-label="Đăng xuất">
                     <svg viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                         <polyline points="16 17 21 12 16 7" />
                         <line x1="21" y1="12" x2="9" y2="12" />
                     </svg>
@@ -65,11 +66,18 @@
                             <td><span class="badge bg-info" th:text="${item.type}"></span></td>
                             <td th:text="${item.content}"></td>
                             <td>
-                                <span th:if="${item.status == 'Đã xử lý'}" class="badge bg-success" th:text="${item.status}"></span>
-                                <span th:unless="${item.status == 'Đã xử lý'}" class="badge bg-warning" th:text="${item.status}"></span>
+                                <span th:if="${item.status == 'Đã xử lý'}" class="badge bg-success"
+                                    th:text="${item.status}"></span>
+                                <span th:unless="${item.status == 'Đã xử lý'}" class="badge bg-warning"
+                                    th:text="${item.status}"></span>
                             </td>
                             <td sec:authorize="hasRole('ADMIN')">
-                                <a th:if="${item.status != 'Đã xử lý'}" th:href="@{'/done/' + ${item.id}}" class="btn btn-sm btn-success">✔</a>
+                                <a th:if="${item.status != 'Đã xử lý'}" th:href="@{'/admin/support/done/' + ${item.id}}"
+                                    class="btn btn-sm btn-success">✔ Xử lý</a>
+
+                                <a th:href="@{'/admin/support/delete/' + ${item.id}}"
+                                    onclick="return confirm('Bạn có chắc muốn xóa yêu cầu này không?')"
+                                    class="btn btn-sm btn-danger">Xóa</a>
                                 <span th:if="${item.status == 'Đã xử lý'}" class="text-muted">Đã xong</span>
                             </td>
                         </tr>

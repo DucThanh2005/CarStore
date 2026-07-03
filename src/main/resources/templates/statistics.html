@@ -17,10 +17,28 @@
             <nav class="ford-nav-left">
                 <a href="/car/list">Sản phẩm</a>
                 <a href="/cart/view">Mua xe</a>
-                <a href="#">Dịch vụ & Hỗ trợ</a>
+                <a href="/service">Dịch vụ</a>
+                <a href="/support">Hỗ trợ</a>
                 <a th:href="@{/admin/statistics}" class="fw-bold text-primary">Thống kê</a>
             </nav>
             <a class="ford-logo" href="/">CarStore</a>
+            <div class="ford-nav-right">
+                <a href="/car/list" class="ford-icon-btn" title="Đại lý" aria-label="Đại lý">
+                    <svg viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                </a>
+                <a href="/logout" class="ford-icon-btn" title="Đăng xuất" aria-label="Đăng xuất">
+                    <svg viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                </a>
+            </div>
         </div>
     </header>
 
